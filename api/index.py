@@ -9,7 +9,7 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-client = genai.Client(api_key="AIzaSyDFzx4v5pL1bUavdPCxhtMxDfnXtBUYNiQ")
+client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY"))
 
 @app.route("/api/health", methods=["GET"])
 def health_check():
@@ -80,7 +80,3 @@ Rules:
         return jsonify({
             "response": "Sorry, the AI helper is not available right now."
         }), 500
-
-
-if __name__ == "__main__":
-    app.run(port=5050, debug=True)
