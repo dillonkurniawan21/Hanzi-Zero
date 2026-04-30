@@ -80,3 +80,4 @@ Rules:
         return jsonify({
             "response": "Sorry, the AI helper is not available right now."
         }), 500
+
