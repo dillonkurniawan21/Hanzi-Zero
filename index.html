@@ -14,6 +14,13 @@
 </head>
 
 <body>
+    <script>
+        (function() {
+            if (!localStorage.getItem('hanzi_token')) {
+                window.location.href = 'login.html';
+            }
+        })();
+    </script>
     <div id="app">
         <!-- Desktop Sidebar -->
         <aside class="sidebar">
@@ -41,6 +48,10 @@
                 </a>
                 <a href="#" class="nav-item" data-screen="more">
                     <span class="icon">•••</span> <span class="label">More</span>
+                </a>
+                <a href="#" class="nav-item" onclick="localStorage.clear(); window.location.reload();" style="margin-top: auto; color: #ff4d4d;">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Logout</span>
                 </a>
             </nav>
 

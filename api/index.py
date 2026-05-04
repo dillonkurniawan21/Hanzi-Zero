@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 from google import genai
@@ -9,12 +9,35 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
+# Hardcoded users for now
+USERS = {
+    "tester": "tester",
+    "admin": "admin"
+}
+
 @app.route("/api/health", methods=["GET"])
 def health_check():
-    return jsonify({"status": "ok", "version": "production"})
+    return jsonify({"status": "ok", "version": "login-system"})
+
+@app.route("/api/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+    
+    if username in USERS and USERS[username] == password:
+        return jsonify({
+            "success": True, 
+            "token": f"mock-token-{username}",
+            "username": username,
+            "role": "admin" if username == "admin" else "user"
+        })
+    
+    return jsonify({"success": False, "message": "Invalid username or password"}), 401
 
 @app.route("/api/analyze", methods=["POST"])
 def analyze():
+    # In a real app, we would verify the token here
     data = request.get_json()
     return jsonify({
         "weaknesses": {
