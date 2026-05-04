@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from google import genai
@@ -9,32 +9,9 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# client will be initialized inside the chat function
-
 @app.route("/api/health", methods=["GET"])
 def health_check():
-    return jsonify({"status": "ok", "version": "v1.2"})
-
-@app.route("/api/debug-paths", methods=["GET"])
-def debug_paths():
-    cur_dir = os.path.dirname(__file__)
-    static_dir = os.path.join(cur_dir, 'static')
-    exists = os.path.exists(os.path.join(static_dir, 'index.html'))
-    try:
-        files = os.listdir(cur_dir)
-        static_files = os.listdir(static_dir) if os.path.exists(static_dir) else []
-    except Exception as e:
-        files = str(e)
-        static_files = []
-        
-    return jsonify({
-        "cur_dir": cur_dir,
-        "static_dir": static_dir,
-        "index_exists": exists,
-        "files_in_cur": files,
-        "files_in_static": static_files,
-        "cwd": os.getcwd()
-    })
+    return jsonify({"status": "ok", "version": "production"})
 
 @app.route("/api/analyze", methods=["POST"])
 def analyze():
@@ -83,11 +60,3 @@ Rules: Explain characters simply, give examples, be short and encouraging.
     except Exception as e:
         print(e)
         return jsonify({"response": "Sorry, the AI helper is not available right now."}), 500
-
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def serve_static(path):
-    static_dir = os.path.join(os.path.dirname(__file__), 'static')
-    if path != "" and os.path.exists(os.path.join(static_dir, path)):
-        return send_from_directory(static_dir, path)
-    return send_from_directory(static_dir, 'index.html')
