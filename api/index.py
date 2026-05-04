@@ -9,7 +9,7 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY") or os.environ.get("GEMINI_API_KEY"))
+# client will be initialized inside the chat function
 
 @app.route("/api/health", methods=["GET"])
 def health_check():
@@ -61,6 +61,7 @@ def get_tip():
 @app.route("/api/chat", methods=["POST"])
 def chat():
     try:
+        client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY") or os.environ.get("GEMINI_API_KEY"))
         data = request.get_json()
         message = data.get("message", "")
         character = data.get("character", "not selected")
