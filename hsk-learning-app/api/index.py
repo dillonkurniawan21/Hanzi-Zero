@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 
-app = Flask(__name__, static_folder='../hsk-learning-app', static_url_path='')
+app = Flask(__name__, static_folder='..', static_url_path='')
 CORS(app)
 
 client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY") or os.environ.get("GEMINI_API_KEY"))
@@ -15,8 +15,7 @@ client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY") or os.envir
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_frontend(path):
-    static_dir = os.path.join(os.path.dirname(__file__), '..', 'hsk-learning-app')
-    static_dir = os.path.abspath(static_dir)
+    static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     if path and os.path.exists(os.path.join(static_dir, path)):
         return send_from_directory(static_dir, path)
     return send_from_directory(static_dir, 'index.html')
@@ -25,6 +24,23 @@ def serve_frontend(path):
 @app.route("/api/health", methods=["GET"])
 def health_check():
     return jsonify({"status": "ok"})
+
+@app.route("/api/debug", methods=["GET"])
+def debug():
+    import os
+    try:
+        cur_dir = os.path.dirname(__file__)
+        parent_dir = os.path.abspath(os.path.join(cur_dir, ".."))
+        files = os.listdir(parent_dir)
+        return jsonify({
+            "__file__": __file__,
+            "cur_dir": cur_dir,
+            "parent_dir": parent_dir,
+            "parent_files": files,
+            "cwd": os.getcwd()
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @app.route("/api/analyze", methods=["POST"])
 def analyze():
