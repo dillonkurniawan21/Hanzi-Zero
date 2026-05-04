@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 from google import genai
@@ -14,6 +14,27 @@ client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY") or os.envir
 @app.route("/api/health", methods=["GET"])
 def health_check():
     return jsonify({"status": "ok"})
+
+@app.route("/api/debug-paths", methods=["GET"])
+def debug_paths():
+    cur_dir = os.path.dirname(__file__)
+    static_dir = os.path.join(cur_dir, 'static')
+    exists = os.path.exists(os.path.join(static_dir, 'index.html'))
+    try:
+        files = os.listdir(cur_dir)
+        static_files = os.listdir(static_dir) if os.path.exists(static_dir) else []
+    except Exception as e:
+        files = str(e)
+        static_files = []
+        
+    return jsonify({
+        "cur_dir": cur_dir,
+        "static_dir": static_dir,
+        "index_exists": exists,
+        "files_in_cur": files,
+        "files_in_static": static_files,
+        "cwd": os.getcwd()
+    })
 
 @app.route("/api/analyze", methods=["POST"])
 def analyze():
