@@ -13,7 +13,7 @@ client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY") or os.envir
 
 @app.route("/api/health", methods=["GET"])
 def health_check():
-    return jsonify({"status": "ok"})
+    return jsonify({"status": "ok", "version": "v1.2"})
 
 @app.route("/api/debug-paths", methods=["GET"])
 def debug_paths():
