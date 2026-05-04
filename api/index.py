@@ -61,3 +61,11 @@ Rules: Explain characters simply, give examples, be short and encouraging.
     except Exception as e:
         print(e)
         return jsonify({"response": "Sorry, the AI helper is not available right now."}), 500
+
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_static(path):
+    static_dir = os.path.join(os.path.dirname(__file__), 'static')
+    if path != "" and os.path.exists(os.path.join(static_dir, path)):
+        return send_from_directory(static_dir, path)
+    return send_from_directory(static_dir, 'index.html')
