@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "hsk-learning-app/index.py",
+      "src": "index.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "hsk-learning-app/index.py"
+      "dest": "index.py"
     }
   ]
 }
