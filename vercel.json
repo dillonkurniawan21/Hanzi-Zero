@@ -1,11 +1,12 @@
 {
+  "version": 2,
   "builds": [
     {
       "src": "hsk-learning-app/api/index.py",
       "use": "@vercel/python"
     },
     {
-      "src": "hsk-learning-app/index.html",
+      "src": "hsk-learning-app/**",
       "use": "@vercel/static"
     }
   ],
@@ -15,12 +16,8 @@
       "dest": "hsk-learning-app/api/index.py"
     },
     {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|h5))",
-      "dest": "hsk-learning-app/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "hsk-learning-app/index.html"
+      "dest": "hsk-learning-app/$1"
     }
   ]
 }
