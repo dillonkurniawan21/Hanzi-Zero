@@ -4,20 +4,12 @@
     {
       "src": "hsk-learning-app/api/index.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "hsk-learning-app/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "hsk-learning-app/api/index.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "hsk-learning-app/$1"
+      "dest": "hsk-learning-app/api/index.py"
     }
   ]
 }

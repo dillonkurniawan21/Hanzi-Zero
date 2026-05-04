@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 from google import genai
@@ -6,18 +6,28 @@ import os
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../hsk-learning-app', static_url_path='')
 CORS(app)
 
 client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY") or os.environ.get("GEMINI_API_KEY"))
 
+# ── Serve frontend ──────────────────────────────────────────────────────────
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_frontend(path):
+    static_dir = os.path.join(os.path.dirname(__file__), '..', 'hsk-learning-app')
+    static_dir = os.path.abspath(static_dir)
+    if path and os.path.exists(os.path.join(static_dir, path)):
+        return send_from_directory(static_dir, path)
+    return send_from_directory(static_dir, 'index.html')
+
+# ── API routes ──────────────────────────────────────────────────────────────
 @app.route("/api/health", methods=["GET"])
 def health_check():
     return jsonify({"status": "ok"})
 
 @app.route("/api/analyze", methods=["POST"])
 def analyze():
-    # Placeholder for actual analysis logic
     data = request.get_json()
     return jsonify({
         "weaknesses": {
@@ -67,7 +77,7 @@ Rules:
 """
 
         response = client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model="gemini-2.0-flash",
             contents=prompt
         )
 
@@ -80,4 +90,3 @@ Rules:
         return jsonify({
             "response": "Sorry, the AI helper is not available right now."
         }), 500
-
