@@ -147,7 +147,7 @@ const AiTutorUI = (function() {
             .chat-input { flex: 1; background: none; border: none; color: #fff; font-size: 13px; outline: none; }
             .chat-send { background: var(--primary); border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-            .offline-badge { font-size: 10px; background: #f44336; color: #fff; padding: 2px 6px; border-radius: 4px; margin-left: 10px; }
+
             .radar-placeholder { height: 150px; background: rgba(255,255,255,0.02); border-radius: 50%; margin: 10px auto; width: 150px; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 10px; text-align: center; }
         `;
         document.head.appendChild(style);
@@ -161,8 +161,7 @@ const AiTutorUI = (function() {
         const perf = { hsk_level: selectedLevel, correct_pct: 0.75, attempts: 12, streak: 5 };
         const data = await window.AiTutor.analyze(perf);
 
-        const isOnline = window.AiTutor.isOnline();
-        const offlineBadge = isOnline ? '' : '<span class="offline-badge">OFFLINE MODE</span>';
+        const offlineBadge = '';
 
         content.innerHTML = `
             <div class="tutor-tabs">

@@ -273,7 +273,7 @@ function renderHomeScreen() {
             html += `
                 <div class="mascot-container">
                     <div class="mascot-bubble">Ready for the next lesson?</div>
-                    <img src="dragon_mascot.png" class="mascot-img" alt="Hanzi Hero Mascot">
+                    <img src="dragon_mascot.png" class="mascot-img" alt="Hanzi Zero Mascot">
                 </div>
             `;
         }
@@ -551,7 +551,7 @@ function renderProfileScreen() {
     screenContainer.innerHTML = `
         <h1 class="exercise-title">Profile</h1>
         <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 40px;">
-            <img src="dragon_mascot.png" alt="Hanzi Hero Dragon Mascot" style="width: 120px; height: 120px; border-radius: 20px; background: #20232e;">
+            <img src="dragon_mascot.png" alt="Hanzi Zero Dragon Mascot" style="width: 120px; height: 120px; border-radius: 20px; background: #20232e;">
             <div>
                 <h2 style="font-size: 32px;">User (You)</h2>
                 <p style="color: var(--text-muted);">Joined April 2026</p>
