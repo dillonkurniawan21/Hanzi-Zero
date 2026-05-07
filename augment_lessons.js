@@ -53,10 +53,7 @@ window.AiTutor = (function() {
     }
 
     const localChatResponses = {
-        "hello": "Hi! I'm your AI Tutor. My server is currently offline, but I can still help with basics!",
-        "hsk": "HSK is the Chinese Proficiency Test. Keep learning to reach Level 6!",
-        "tone": "Mandarin has 4 tones. Try practicing them with a voice recorder!",
-        "default": "I'm in offline mode right now, so my brain is a bit limited. Try starting the Python backend!"
+        "default": "the ai currently unavailabe wait until next update"
     };
 
     return {
@@ -93,12 +90,7 @@ window.AiTutor = (function() {
 
         chat: async function(message) {
             if (!isOnline) {
-                const lower = message.toLowerCase();
-                let reply = localChatResponses.default;
-                if (lower.includes("hi") || lower.includes("hello")) reply = localChatResponses.hello;
-                else if (lower.includes("hsk")) reply = localChatResponses.hsk;
-                else if (lower.includes("tone")) reply = localChatResponses.tone;
-                return { response: reply, offline: true };
+                return { response: localChatResponses.default, offline: true };
             }
 
             try {

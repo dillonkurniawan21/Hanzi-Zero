@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
-from google import genai
 import os
 
 load_dotenv()
@@ -60,26 +59,4 @@ def get_tip():
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
-    try:
-        client = genai.Client(api_key=os.environ.get("GOOGLE_GENAI_API_KEY") or os.environ.get("GEMINI_API_KEY"))
-        data = request.get_json()
-        message = data.get("message", "")
-        character = data.get("character", "not selected")
-        points = data.get("points", 0)
-
-        prompt = f"""
-You are a friendly AI study helper for a Chinese learning app.
-Help the student study Chinese characters.
-Current character: {character}
-Student points: {points}
-Student message: {message}
-Rules: Explain characters simply, give examples, be short and encouraging.
-"""
-        response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=prompt
-        )
-        return jsonify({"response": response.text})
-    except Exception as e:
-        print(e)
-        return jsonify({"response": "Sorry, the AI helper is not available right now."}), 500
+    return jsonify({"response": "the ai currently unavailabe wait until next update"})
